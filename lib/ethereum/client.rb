@@ -11,6 +11,9 @@ module Ethereum
     # https://github.com/ethereum/go-ethereum/wiki/Management-APIs
     RPC_MANAGEMENT_COMMANDS = %w(admin_addPeer admin_datadir admin_nodeInfo admin_peers admin_setSolc admin_startRPC admin_startWS admin_stopRPC admin_stopWS debug_backtraceAt debug_blockProfile debug_cpuProfile debug_dumpBlock debug_gcStats debug_getBlockRlp debug_goTrace debug_memStats debug_seedHash debug_setHead debug_setBlockProfileRate debug_stacks debug_startCPUProfile debug_startGoTrace debug_stopCPUProfile debug_stopGoTrace debug_traceBlock debug_traceBlockByNumber debug_traceBlockByHash debug_traceBlockFromFile debug_traceTransaction debug_verbosity debug_vmodule debug_writeBlockProfile debug_writeMemProfile miner_hashrate miner_makeDAG miner_setExtra miner_setGasPrice miner_start miner_startAutoDAG miner_stop miner_stopAutoDAG personal_importRawKey personal_listAccounts personal_lockAccount personal_newAccount personal_unlockAccount personal_sendTransaction txpool_content txpool_inspect txpool_status)
 
+    # https://docs.alchemy.com/alchemy/documentation/enhanced-apis
+    RPC_ALCHEMY_COMMANDS = %w(alchemy_getAssetTransfers alchemy_getTokenBalances alchemy_getTokenMetadata)
+
     attr_accessor :command, :id, :log, :logger, :default_account, :gas_price, :gas_limit
 
     def initialize(log = false)
@@ -131,7 +134,7 @@ module Ethereum
       end
     end
 
-    (RPC_COMMANDS + RPC_MANAGEMENT_COMMANDS).each do |rpc_command|
+    (RPC_COMMANDS + RPC_MANAGEMENT_COMMANDS + RPC_ALCHEMY_COMMANDS).each do |rpc_command|
       method_name = rpc_command.underscore
       define_method method_name do |*args|
         send_command(rpc_command, args)
